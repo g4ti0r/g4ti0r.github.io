@@ -20,14 +20,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="theme-color" content="#f8f8f8">
   
-  <title>HTB: Response - Blog</title>
+  <title>HTB: Response - BLOG</title>
 
   
     <meta name="description" content="人生第一次打Insane难度的机器，常规思路用完后的无力感油然而生。通过深度研究Rsa解密拿到权限才是真的😊">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HTB: Response">
 <meta property="og:url" content="https://44maker.github.io/2023/09/02/htb-response/index.html">
-<meta property="og:site_name" content="Blog">
+<meta property="og:site_name" content="BLOG">
 <meta property="og:description" content="人生第一次打Insane难度的机器，常规思路用完后的无力感油然而生。通过深度研究Rsa解密拿到权限才是真的😊">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://ldbbs.ldmnq.com/bbs/topic/attachment/2023-1/79d98344-e45a-4cfe-8f77-64c259e1268e.png">
@@ -46,7 +46,7 @@
 
   <!-- feed -->
   
-    <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml">
+    <link rel="alternate" href="/atom.xml" title="BLOG" type="application/atom+xml">
   
 
   
@@ -81,7 +81,7 @@
 
   
 
-<header class="header"><div class="logo-wrap"><a class="title" href="/"><div class="main" ff="title">Blog</div></a></div>
+<header class="header"><div class="logo-wrap"><a class="title" href="/"><div class="main" ff="title">BLOG</div></a></div>
 
 <nav class="menu dis-select"><a class="nav-item active" href="/">文章</a><a class="nav-item" href="/wiki/">Wiki</a><a class="nav-item" href="/friends/">友链</a><a class="nav-item" href="/nav/">导航</a></nav>
 </header>
@@ -408,6 +408,20 @@
 
 
 
+  <div class='related-wrap md-text reveal' id="comments">
+    <section class='header cmt-title cap theme'>
+      快来参与讨论吧
+    </section>
+    <section class='body cmt-body beaudar'>
+      
+
+<svg class="loading" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+
+<div id="beaudar" repo="44maker/blog-comments" issue-term="pathname" theme="preferred-color-scheme" input-position="top" comment-order="desc" loading="false" branch="main"></div>
+
+    </section>
+  </div>
+
 
 
       
@@ -593,6 +607,34 @@
 
 
 <!-- optional -->
+
+  <script>
+  function loadBeaudar() {
+    const els = document.querySelectorAll("#comments #beaudar");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://beaudar.lipk.org/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+      loadBeaudar();
+  });
+</script>
+
 
 
 

@@ -20,13 +20,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="theme-color" content="#f8f8f8">
   
-  <title>导航 - Blog</title>
+  <title>导航 - BLOG</title>
 
   
     <meta property="og:type" content="website">
 <meta property="og:title" content="导航">
 <meta property="og:url" content="https://44maker.github.io/nav/index.html">
-<meta property="og:site_name" content="Blog">
+<meta property="og:site_name" content="BLOG">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-09-01T01:05:53.000Z">
 <meta property="article:modified_time" content="2023-09-02T02:57:04.013Z">
@@ -40,7 +40,7 @@
 
   <!-- feed -->
   
-    <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml">
+    <link rel="alternate" href="/atom.xml" title="BLOG" type="application/atom+xml">
   
 
   
@@ -73,7 +73,7 @@
 
   
 
-<header class="header"><div class="logo-wrap"><a class="title" href="/"><div class="main" ff="title">Blog</div></a></div>
+<header class="header"><div class="logo-wrap"><a class="title" href="/"><div class="main" ff="title">BLOG</div></a></div>
 
 <nav class="menu dis-select"><a class="nav-item" href="/">文章</a><a class="nav-item" href="/wiki/">Wiki</a><a class="nav-item" href="/friends/">友链</a><a class="nav-item" href="/nav/">导航</a></nav>
 </header>
@@ -89,7 +89,7 @@
       
   
 
-<header class="header mobile-only"><div class="logo-wrap"><a class="title" href="/"><div class="main" ff="title">Blog</div></a></div></header>
+<header class="header mobile-only"><div class="logo-wrap"><a class="title" href="/"><div class="main" ff="title">BLOG</div></a></div></header>
 
 
 
@@ -98,6 +98,20 @@
 
 <div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/nav/index.html">导航</a></div></div>
 <article class="md-text content page"><h1 class="article-title"><span>导航</span></h1></article>
+
+  <div class='related-wrap md-text reveal' id="comments">
+    <section class='header cmt-title cap theme'>
+      快来参与讨论吧
+    </section>
+    <section class='body cmt-body beaudar'>
+      
+
+<svg class="loading" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+
+<div id="beaudar" repo="44maker/blog-comments" issue-term="pathname" theme="preferred-color-scheme" input-position="top" comment-order="desc" loading="false" branch="main"></div>
+
+    </section>
+  </div>
 
 
 
@@ -284,6 +298,34 @@
 
 
 <!-- optional -->
+
+  <script>
+  function loadBeaudar() {
+    const els = document.querySelectorAll("#comments #beaudar");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://beaudar.lipk.org/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+      loadBeaudar();
+  });
+</script>
+
 
 
 

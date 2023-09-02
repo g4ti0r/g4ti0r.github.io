@@ -5200,3 +5200,7 @@ img[fancybox='true'] {
   color: #fa6400;
   opacity: 0.75;
 }
+.cmt-body.beaudar {
+  margin: 0 -4px;
+  width: calc(100% + 8px);
+}

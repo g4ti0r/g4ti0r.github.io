@@ -20,14 +20,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="theme-color" content="#f8f8f8">
   
-  <title>Mac：系统设置 - Blog</title>
+  <title>Mac：系统设置 - BLOG</title>
 
   
     <meta name="description" content="基本设置取消 4 位数密码限制 1pwpolicy -clearaccountpolicies 程序坞自动隐藏加速 1234567891011# 设置启动坞动画时间设置为 0.5 秒 defaults write com.apple.dock autohide-time-modifier -float 0.5 &amp;&amp; killall Dock# 设置启动坞响应时间最短defaults">
 <meta property="og:type" content="website">
 <meta property="og:title" content="系统设置">
 <meta property="og:url" content="https://44maker.github.io/wiki/Mac/system.html">
-<meta property="og:site_name" content="Blog">
+<meta property="og:site_name" content="BLOG">
 <meta property="og:description" content="基本设置取消 4 位数密码限制 1pwpolicy -clearaccountpolicies 程序坞自动隐藏加速 1234567891011# 设置启动坞动画时间设置为 0.5 秒 defaults write com.apple.dock autohide-time-modifier -float 0.5 &amp;&amp; killall Dock# 设置启动坞响应时间最短defaults">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://image.3001.net/images/20230711/16890781717456.png">
@@ -45,7 +45,7 @@
 
   <!-- feed -->
   
-    <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml">
+    <link rel="alternate" href="/atom.xml" title="BLOG" type="application/atom+xml">
   
 
   
@@ -126,6 +126,20 @@
 <div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/Mac/test.html">上手验机</a></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/Mac/dailyapp.html">日常软件</a></div></section></div>
 
   
+
+  <div class='related-wrap md-text reveal' id="comments">
+    <section class='header cmt-title cap theme'>
+      快来参与讨论吧
+    </section>
+    <section class='body cmt-body beaudar'>
+      
+
+<svg class="loading" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+
+<div id="beaudar" repo="44maker/blog-comments" issue-term="pathname" theme="preferred-color-scheme" input-position="top" comment-order="desc" loading="false" branch="main"></div>
+
+    </section>
+  </div>
 
 
 
@@ -313,6 +327,34 @@
 
 
 <!-- optional -->
+
+  <script>
+  function loadBeaudar() {
+    const els = document.querySelectorAll("#comments #beaudar");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://beaudar.lipk.org/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+      loadBeaudar();
+  });
+</script>
+
 
 
 
