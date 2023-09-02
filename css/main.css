@@ -4002,60 +4002,26 @@ nav.menu a.nav-item:hover {
   display: flex;
   flex-direction: row;
   align-items: center;
-  transition: 0.38s ease-out;
-  z-index: 0;
-}
-.search-wrapper >.search-form:after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 2px;
-  border-radius: 4px;
-  background: linear-gradient(to right, #04f3ff, #08ffc6, #ddf730, #ffbd19, #ff1fe0, #c418ff, #04f3ff);
-  background-size: 200%;
-  animation: glow 10s linear infinite;
-}
-@-moz-keyframes glow {
-  from {
-    background-position: 0%;
-  }
-  to {
-    background-position: 200%;
-  }
-}
-@-webkit-keyframes glow {
-  from {
-    background-position: 0%;
-  }
-  to {
-    background-position: 200%;
-  }
-}
-@-o-keyframes glow {
-  from {
-    background-position: 0%;
-  }
-  to {
-    background-position: 200%;
-  }
-}
-@keyframes glow {
-  from {
-    background-position: 0%;
-  }
-  to {
-    background-position: 200%;
-  }
 }
 .search-wrapper .search-input {
   width: 100%;
-  padding: 0.5rem 0;
+  padding: 0.5rem;
   line-height: 1;
   box-sizing: border-box;
   font-family: "LXGW WenKai Screen", "Microsoft Yahei", "Microsoft Yahei", "Segoe UI", -apple-system, Roboto, Ubuntu, "Helvetica Neue", Arial, "WenQuanYi Micro Hei", sans-serif;
+  border-radius: 12px;
+  background-color: var(--card);
   color: var(--text-p0);
+  border: 1px solid var(--block-border);
+}
+.search-wrapper .search-input:focus {
+  transition: border-color 0.2s ease-out;
+  -moz-transition: border-color 0.2s ease-out;
+  -webkit-transition: border-color 0.2s ease-out;
+  -o-transition: border-color 0.2s ease-out;
+}
+.search-wrapper.noresult .search-input:focus {
+  border: 1px solid #f44336;
 }
 .search-wrapper.noresult .search-icon {
   color: #f44336;
@@ -4068,7 +4034,7 @@ nav.menu a.nav-item:hover {
   font-size: 0.875rem;
   padding: 2rem;
   background: var(--block);
-  border-radius: 6px;
+  border-radius: 12px;
 }
 .search-wrapper #search-result ul.search-result-list {
   padding: 0;
@@ -4112,18 +4078,22 @@ nav.menu a.nav-item:hover {
   background: var(--site-bg);
 }
 .widget-wrapper .search-input {
-  padding-left: 1.5rem;
+  margin-top: 1rem;
+  margin-bottom: -1rem;
+  padding-left: 1.75rem;
 }
 .widget-wrapper .search-icon {
+  margin-top: 1rem;
+  margin-bottom: -1rem;
   position: absolute;
-  margin-left: 0.25rem;
+  margin-left: 0.5rem;
   left: 0;
   pointer-events: none;
   color: var(--text-p2);
 }
 .widget-wrapper #search-result,
 .widget-wrapper .search-no-result {
-  margin-top: 1rem;
+  margin-top: 2rem;
 }
 .widget-wrapper:not(:first-child) .search-wrapper {
   margin-top: -1rem;
