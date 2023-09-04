@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://gcore.jsdelivr.net'>
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='//unpkg.com'>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>Kali：Pwn - BLOG</title>
+
+  
+    <meta name="description" content="pwntools1234sudo apt-get updatesudo apt-get install python3 python3-pip python3-dev git libssl-dev libffi-dev build-essential -ypython3 -m pip install --upgrade pippython3 -m pip install --upgrade pwn">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Pwn">
+<meta property="og:url" content="https://44maker.github.io/wiki/Kali/ctf-pwn.html">
+<meta property="og:site_name" content="BLOG">
+<meta property="og:description" content="pwntools1234sudo apt-get updatesudo apt-get install python3 python3-pip python3-dev git libssl-dev libffi-dev build-essential -ypython3 -m pip install --upgrade pippython3 -m pip install --upgrade pwn">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-09-04T04:09:14.864Z">
+<meta property="article:modified_time" content="2023-09-04T04:09:14.864Z">
+<meta property="article:author" content="44maker">
+<meta property="article:tag" content="blog">
+<meta name="twitter:card" content="summary">
+  
+  
+  
+  <meta name="keywords" content="blog">
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="BLOG" type="application/atom+xml">
+  
+
+  
+    
+<link rel="stylesheet" href="/css/main.css">
+
+  
+
+  
+    <link rel="shortcut icon" href="https://fc.sinaimg.cn/large/007QiKhggy1hhia4d9l26j30fl0fut8m.jpg">
+  
+
+  
+
+  
+
+
+  
+    
+      <link rel="stylesheet" href="https://cdn.staticfile.org/lxgw-wenkai-screen-webfont/1.6.0/lxgwwenkaiscreen.css" media="print" onload="this.media='all'">
+    
+  
+</head>
+
+<body>
+  
+
+
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left' layout='wiki'>
+    
+
+  
+
+
+
+
+<div class="widgets"><widget class="widget-wrapper logo-wrap wiki"><div class="widget-body"><a style="filter: grayscale(100%)" class="wiki-home cap" href="/wiki"><svg aria-hidden="true" viewBox="0 0 16 16" width="1rem" height="1rem" fill="currentColor"><path fill-rule="evenodd" d="M7.78 12.53a.75.75 0 01-1.06 0L2.47 8.28a.75.75 0 010-1.06l4.25-4.25a.75.75 0 011.06 1.06L4.81 7h7.44a.75.75 0 010 1.5H4.81l2.97 2.97a.75.75 0 010 1.06z"></path></svg>所有项目</a><a class="title" href="/wiki/Kali/index.html"><div class="main" ff="title">Kali</div><div class="sub normal cap">终极武装教程</div><div class="sub hover cap" style="opacity:0"> Designed by 44maker</div></a></div></widget>
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/wiki/Kali/" placeholder="在 /wiki/Kali/ 中搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+<widget class="widget-wrapper toc multi" id="data-toc"><div class="widget-header cap dis-select"><span class="name">快速开始</span></div><div class="widget-body fs14"><div class="doc-tree"><a class="doc-tree-link" href="/wiki/Kali/first.html"><span class="toc-text">系统安装</span></a></div><div class="doc-tree"><a class="doc-tree-link" href="/wiki/Kali/second.html"><span class="toc-text">系统配置</span></a></div></div><div class="widget-header cap dis-select"><span class="name">CTF配置</span></div><div class="widget-body fs14"><div class="doc-tree"><a class="doc-tree-link" href="/wiki/Kali/ctf-web.html"><span class="toc-text">Web</span></a></div><div class="doc-tree active"><a class="doc-tree-link active" href="/wiki/Kali/ctf-pwn.html"><span class="toc-text">Pwn</span></a><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#pwntools"><span class="toc-text">pwntools</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gdb"><span class="toc-text">gdb</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#peda-pwngdb-gef"><span class="toc-text">peda&#x2F;pwngdb&#x2F;gef</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#pwndbg"><span class="toc-text">pwndbg</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#peda"><span class="toc-text">peda</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#gef"><span class="toc-text">gef</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gdb%E5%88%87%E6%8D%A2%E6%8F%92%E4%BB%B6"><span class="toc-text">gdb切换插件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#32%E4%BD%8D%E7%A8%8B%E5%BA%8F%E6%94%AF%E6%8C%81"><span class="toc-text">32位程序支持</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#arm-%E7%9A%84-pwn-%E7%8E%AF%E5%A2%83-qemu"><span class="toc-text">arm 的 pwn 环境 qemu</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LibcSearcher"><span class="toc-text">LibcSearcher</span></a></li></ol></div></div><div class="widget-header cap dis-select"><span class="name">打靶配置</span></div><div class="widget-body fs14"><div class="doc-tree"><a class="doc-tree-link" href="/wiki/Kali/htb.html"><span class="toc-text">HackTheBox</span></a></div></div></widget>
+</div>
+
+
+    </aside>
+    <div class='l_main'>
+      
+
+      
+
+  
+  
+  
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" id="home" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki/">Wiki</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/Kali/index.html">Kali</a></div><div id="post-meta">更新于&nbsp;<time datetime="2023-09-04T04:09:14.864Z">2023-09-04</time></div></div>
+
+  <article class='md-text content wiki'>
+  <h1 class="article-title"><span>Pwn</span></h1>
+  <h2 id="pwntools"><a href="#pwntools" class="headerlink" title="pwntools"></a>pwntools</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install python3 python3-pip python3-dev git libssl-dev libffi-dev build-essential -y</span><br><span class="line">python3 -m pip install --upgrade pip</span><br><span class="line">python3 -m pip install --upgrade pwntools</span><br></pre></td></tr></table></figure>
+<p>打开 python，输入 <code>from pwn import *</code> 看看是否有报错即可。</p>
+<h2 id="gdb"><a href="#gdb" class="headerlink" title="gdb"></a>gdb</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install gdb -y</span><br></pre></td></tr></table></figure>
+<h2 id="peda-pwngdb-gef"><a href="#peda-pwngdb-gef" class="headerlink" title="peda&#x2F;pwngdb&#x2F;gef"></a>peda&#x2F;pwngdb&#x2F;gef</h2><p>这是常见的 gdb 的三个插件，配合 gdb 使用可以提升调试效率。</p>
+<h3 id="pwndbg"><a href="#pwndbg" class="headerlink" title="pwndbg"></a>pwndbg</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/pwndbg/pwndbg</span><br><span class="line"><span class="built_in">cd</span> pwndbg</span><br><span class="line">./setup.sh</span><br></pre></td></tr></table></figure>
+<h3 id="peda"><a href="#peda" class="headerlink" title="peda"></a>peda</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/longld/peda.git ~/peda</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;source ~/peda/peda.py&quot;</span> &gt;&gt; ~/.gdbinit</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;DONE! debug your program with gdb and enjoy&quot;</span></span><br></pre></td></tr></table></figure>
+<h3 id="gef"><a href="#gef" class="headerlink" title="gef"></a>gef</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line">wget -q -O ~/.gdbinit-gef.py https://github.com/hugsy/gef/raw/master/gef.py</span><br><span class="line"><span class="built_in">echo</span> <span class="built_in">source</span> ~/.gdbinit-gef.py &gt;&gt; ~/.gdbinit</span><br></pre></td></tr></table></figure>
+<h2 id="gdb切换插件"><a href="#gdb切换插件" class="headerlink" title="gdb切换插件"></a>gdb切换插件</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.gdbinit</span><br><span class="line"><span class="comment">#把所有内容注释掉</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/local/sbin</span><br><span class="line">sudo <span class="built_in">touch</span> gdb.sh</span><br><span class="line">sudo vim gdb.sh</span><br></pre></td></tr></table></figure>
+<p>粘贴下面的脚本</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="keyword">function</span> Mode_change &#123;</span><br><span class="line">    name=<span class="variable">$1</span></span><br><span class="line">    gdbinitfile=~/.gdbinit    <span class="comment">#这个路径按照你的实际情况修改</span></span><br><span class="line">    <span class="comment"># gdbinitfile=/root/Desktop/mode</span></span><br><span class="line"> </span><br><span class="line">    peda=<span class="string">&quot;source ~/peda/peda.py&quot;</span>   <span class="comment">#这个路径按照你的实际情况修改</span></span><br><span class="line">    gef=<span class="string">&quot;source ~/.gdbinit-gef.py&quot;</span>   <span class="comment">#这个路径按照你的实际情况修改</span></span><br><span class="line">    pwndbg=<span class="string">&quot;source ~/pwndbg/gdbinit.py&quot;</span>   <span class="comment">#这个路径按照你的实际情况修改</span></span><br><span class="line"> </span><br><span class="line">    sign=$(<span class="built_in">cat</span> <span class="variable">$gdbinitfile</span> | grep -n <span class="string">&quot;#this place is controled by user&#x27;s shell&quot;</span>)     </span><br><span class="line">           <span class="comment">#此处上面的查找内容要和你自己的保持一致</span></span><br><span class="line"> </span><br><span class="line">    pattern=<span class="string">&quot;:#this place is controled by user&#x27;s shell&quot;</span></span><br><span class="line">    number=<span class="variable">$&#123;sign%$pattern&#125;</span></span><br><span class="line">    location=$[number+2]</span><br><span class="line"> </span><br><span class="line">    parameter_add=<span class="variable">$&#123;location&#125;</span>i</span><br><span class="line">    parameter_del=<span class="variable">$&#123;location&#125;</span>d</span><br><span class="line"> </span><br><span class="line">    message=<span class="string">&quot;TEST&quot;</span></span><br><span class="line"> </span><br><span class="line">    <span class="keyword">if</span> [ <span class="variable">$name</span> -eq <span class="string">&quot;1&quot;</span> ];<span class="keyword">then</span></span><br><span class="line">        sed -i <span class="string">&quot;<span class="variable">$parameter_del</span>&quot;</span> <span class="variable">$gdbinitfile</span></span><br><span class="line">        sed -i <span class="string">&quot;<span class="variable">$parameter_add</span> <span class="variable">$peda</span>&quot;</span> <span class="variable">$gdbinitfile</span></span><br><span class="line">        <span class="built_in">echo</span> -e <span class="string">&quot;Please enjoy the peda!\n&quot;</span></span><br><span class="line">    <span class="keyword">elif</span> [ <span class="variable">$name</span> -eq <span class="string">&quot;2&quot;</span> ];<span class="keyword">then</span></span><br><span class="line">        sed -i <span class="string">&quot;<span class="variable">$parameter_del</span>&quot;</span> <span class="variable">$gdbinitfile</span></span><br><span class="line">        sed -i <span class="string">&quot;<span class="variable">$parameter_add</span> <span class="variable">$gef</span>&quot;</span> <span class="variable">$gdbinitfile</span></span><br><span class="line">        <span class="built_in">echo</span> -e <span class="string">&quot;Please enjoy the gef!\n&quot;</span></span><br><span class="line">    <span class="keyword">elif</span> [ <span class="variable">$name</span> -eq <span class="string">&quot;3&quot;</span> ];<span class="keyword">then</span></span><br><span class="line">        sed -i <span class="string">&quot;<span class="variable">$parameter_del</span>&quot;</span> <span class="variable">$gdbinitfile</span></span><br><span class="line">        sed -i <span class="string">&quot;<span class="variable">$parameter_add</span> <span class="variable">$pwndbg</span>&quot;</span> <span class="variable">$gdbinitfile</span></span><br><span class="line">        <span class="built_in">echo</span> -e <span class="string">&quot;Please enjoy the pwndbg!\n&quot;</span></span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        sed -i <span class="string">&quot;<span class="variable">$parameter_del</span>&quot;</span> <span class="variable">$gdbinitfile</span></span><br><span class="line">    <span class="built_in">echo</span> -e <span class="string">&quot;Please enjoy pure gdb!&quot;</span></span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line"> </span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="built_in">echo</span> -e <span class="string">&quot;Please choose one mode of GDB?\n1.peda    2.gef    3.pwndbg   4.pure_gdb&quot;</span></span><br><span class="line"> </span><br><span class="line"><span class="built_in">read</span> -p <span class="string">&quot;Input your choice:&quot;</span> num</span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$num</span> -eq <span class="string">&quot;1&quot;</span> ];<span class="keyword">then</span></span><br><span class="line">    Mode_change <span class="variable">$num</span></span><br><span class="line"><span class="keyword">elif</span> [ <span class="variable">$num</span> -eq <span class="string">&quot;2&quot;</span> ];<span class="keyword">then</span></span><br><span class="line">    Mode_change <span class="variable">$num</span></span><br><span class="line"><span class="keyword">elif</span> [ <span class="variable">$num</span> -eq <span class="string">&quot;3&quot;</span> ];<span class="keyword">then</span></span><br><span class="line">    Mode_change <span class="variable">$num</span></span><br><span class="line"><span class="keyword">elif</span> [ <span class="variable">$num</span> -eq <span class="string">&quot;4&quot;</span> ];<span class="keyword">then</span></span><br><span class="line">    Mode_change <span class="variable">$num</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    <span class="built_in">echo</span> -e <span class="string">&quot;Error!\nPleasse input right number!&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"> </span><br><span class="line">gdb <span class="variable">$1</span> <span class="variable">$2</span> <span class="variable">$3</span> <span class="variable">$4</span> <span class="variable">$5</span> <span class="variable">$6</span> <span class="variable">$7</span> <span class="variable">$8</span> <span class="variable">$9</span></span><br></pre></td></tr></table></figure>
+<p>添加权限</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">chmod</span> -R 777 gdb.sh</span><br></pre></td></tr></table></figure>
+<p>然后便可以使用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">g4ti0r@XiaoxinPro13:~$ gdb.sh</span><br><span class="line">Please choose one mode of GDB?</span><br><span class="line">1.peda    2.gef    3.pwndbg   4.pure_gdb</span><br><span class="line">Input your choice:3</span><br><span class="line">Please enjoy the pwndbg!</span><br><span class="line"></span><br><span class="line">pwndbg&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="32位程序支持"><a href="#32位程序支持" class="headerlink" title="32位程序支持"></a>32位程序支持</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install libc6-dev-i386 -y</span><br></pre></td></tr></table></figure>
+<h2 id="arm-的-pwn-环境-qemu"><a href="#arm-的-pwn-环境-qemu" class="headerlink" title="arm 的 pwn 环境 qemu"></a>arm 的 pwn 环境 qemu</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install qemu qemu-system qemu-user-static binfmt-support -y</span><br></pre></td></tr></table></figure>
+<p>安装依赖：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install -y gcc-arm-linux-gnueabi</span><br><span class="line"></span><br><span class="line">sudo apt-get install qemu libncurses5-dev gcc-arm-linux-gnueabi build-essential synaptic gcc-aarch64-linux-gnu -y</span><br></pre></td></tr></table></figure>
+<h2 id="LibcSearcher"><a href="#LibcSearcher" class="headerlink" title="LibcSearcher"></a>LibcSearcher</h2><p>泄露 libc 库中函数的偏移的库，建议安装，可以节省时间，提高效率。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo pip install capstone</span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/lieanu/LibcSearcher.git</span><br><span class="line"><span class="built_in">cd</span> LibcSearcher</span><br><span class="line">sudo python3 setup.py develop</span><br></pre></td></tr></table></figure>
+<h1 id="ROPgadget-和-one-gadget"><a href="#ROPgadget-和-one-gadget" class="headerlink" title="ROPgadget 和 one_gadget"></a>ROPgadget 和 one_gadget</h1><p>ROPgadget 是用来找 gadget 的，one_gadget 用来寻找 libc 库中的 execve (‘&#x2F;bin&#x2F;sh’, NULL, NULL) 可以一个 gadget 就可以 getshell，建议安装。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 先安装Capstone,它是一个轻量级的多平台架构支持的反汇编架构。</span></span><br><span class="line">sudo apt-get install python-capstone -y</span><br><span class="line"> </span><br><span class="line"><span class="comment">#安装ROPgadget</span></span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/JonathanSalwan/ROPgadget.git</span><br><span class="line"> </span><br><span class="line"><span class="comment">#进入</span></span><br><span class="line"><span class="built_in">cd</span> ROPgadget</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 下载好ROPgadget解压，并进入文件夹中</span></span><br><span class="line">sudo python3 setup.py install</span><br><span class="line"> </span><br><span class="line"><span class="comment">#安装one_gadget</span></span><br><span class="line">sudo apt install ruby -y</span><br><span class="line">sudo gem install one_gadget</span><br></pre></td></tr></table></figure>
+<p>最后：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get upgrade -y</span><br></pre></td></tr></table></figure>
+  
+  
+
+
+  </article>
+  
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">回顾上一篇</div><a href="/wiki/Kali/ctf-web.html">Web</a></div><div class="item" id="next"><div class="note">接下来阅读</div><a href="/wiki/Kali/htb.html">HackTheBox</a></div></section></div>
+
+  
+
+  <div class='related-wrap md-text reveal' id="comments">
+    <section class='header cmt-title cap theme'>
+      快来参与讨论吧
+    </section>
+    <section class='body cmt-body beaudar'>
+      
+
+<svg class="loading" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+
+<div id="beaudar" repo="44maker/blog-comments" issue-term="pathname" theme="preferred-color-scheme" input-position="top" comment-order="desc" loading="false" branch="main"></div>
+
+    </section>
+  </div>
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="text"><center>
+</br>
+</br>
+<!--不蒜子计数器-->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!--添加一个访问量-->
+<span>
+                👀总访问 <span id="busuanzi_value_site_pv" style="color: rgb(13, 109, 252); font-weight: bold;"></span>                次 | 🥷总访客 <span id="busuanzi_value_site_uv" style="color: rgb(13, 109, 252); font-weight: bold;"></span> 人
+</span>
+</br>
+</br>
+
+<p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.19.0';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadBeaudar() {
+    const els = document.querySelectorAll("#comments #beaudar");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://beaudar.lipk.org/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+      loadBeaudar();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+  
+    <script  src="https://jsd.cdn.zzko.cn/npm/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+  
+    <script>window.addEventListener('load', () => {  quicklink.listen();});</script>
+  
+
+
+  </div>
+</body>
+</html>
