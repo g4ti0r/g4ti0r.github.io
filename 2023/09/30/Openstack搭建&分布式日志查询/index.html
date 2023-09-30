@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://gcore.jsdelivr.net'>
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='//unpkg.com'>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>openstack.md - BLOG</title>
+
+  
+    <meta name="description" content="使用openstack搭建环境&amp;使用分布式日志查询器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="openstack.md">
+<meta property="og:url" content="https://44maker.github.io/2023/09/30/Openstack%E6%90%AD%E5%BB%BA&%E5%88%86%E5%B8%83%E5%BC%8F%E6%97%A5%E5%BF%97%E6%9F%A5%E8%AF%A2/index.html">
+<meta property="og:site_name" content="BLOG">
+<meta property="og:description" content="使用openstack搭建环境&amp;使用分布式日志查询器">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.ipfsscan.io/ipfs/QmdxGc3WHa5LKtVQCwhyWeXFYnmtbahQmj5zuXpZZVdGiW?filename=image.png">
+<meta property="og:image" content="https://cdn.ipfsscan.io/ipfs/QmRwKcEvBMmVU7EmREHLtJ1SFvMrvFiGSc8GbARi1wBLgj?filename=image.png">
+<meta property="og:image" content="https://img2023.cnblogs.com/blog/3273817/202309/3273817-20230930160305447-423301581.jpg">
+<meta property="og:image" content="https://img2023.cnblogs.com/blog/3273817/202309/3273817-20230930160636564-1453828269.jpg">
+<meta property="og:image" content="https://img2023.cnblogs.com/blog/3273817/202309/3273817-20230930161400824-1146095365.jpg">
+<meta property="og:image" content="https://img2023.cnblogs.com/blog/3273817/202309/3273817-20230930162541807-960085368.jpg">
+<meta property="og:image" content="https://camo.githubusercontent.com/43680d6ef4d83b42e4a7085448a8c53ded39a82adb4249f4d5757e73084d3cdf/68747470733a2f2f63646e2e697066737363616e2e696f2f697066732f516d654d7832366a356e5371727a715966635a654c57756f72557a673334687a614e5632587850614847475a53443f66696c656e616d653d696d6167652e706e67">
+<meta property="og:image" content="https://camo.githubusercontent.com/5150ffe840234da4a96eb84c58a902f8a1e2803c31bfaa12a484ab28dda859b3/68747470733a2f2f63646e2e697066737363616e2e696f2f697066732f516d63797957484367394d33736d7233625376437335664671393647647755793438696d775371586576794866443f66696c656e616d653d526573756c7473322e706e67">
+<meta property="article:published_time" content="2023-09-30T07:42:36.000Z">
+<meta property="article:modified_time" content="2023-09-30T08:30:42.916Z">
+<meta property="article:author" content="44maker">
+<meta property="article:tag" content="运维">
+<meta property="article:tag" content="云计算">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.ipfsscan.io/ipfs/QmdxGc3WHa5LKtVQCwhyWeXFYnmtbahQmj5zuXpZZVdGiW?filename=image.png">
+  
+  
+  
+  <meta name="keywords" content="运维,云计算">
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="BLOG" type="application/atom+xml">
+  
+
+  
+    
+<link rel="stylesheet" href="/css/main.css">
+
+  
+
+  
+    <link rel="shortcut icon" href="https://fc.sinaimg.cn/large/007QiKhggy1hhia4d9l26j30fl0fut8m.jpg">
+  
+
+  
+
+  
+
+
+  
+    
+      <link rel="stylesheet" href="https://cdn.staticfile.org/lxgw-wenkai-screen-webfont/1.6.0/lxgwwenkaiscreen.css" media="print" onload="this.media='all'">
+    
+  
+</head>
+
+<body>
+  
+
+
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left' layout='post'>
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://fc.sinaimg.cn/large/007QiKhggy1hhi9ont0gtj30dw0dwjy1.jpg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">BLOG</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/">文章</a><a class="nav-item" href="/wiki/">Wiki</a><a class="nav-item" href="/friends/">友链</a><a class="nav-item" href="/nav/">导航</a></nav>
+</header>
+
+
+<div class="widgets">
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/blog/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">openstack.md</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87"><span class="toc-text">前期准备</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B5%84%E6%BA%90%E5%87%86%E5%A4%87"><span class="toc-text">资源准备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%85%8D%E7%BD%AE"><span class="toc-text">虚拟机配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B0%E5%BB%BA%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="toc-text">新建虚拟机</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E6%AD%A5%E9%85%8D%E7%BD%AE%E7%AC%AC%E4%B8%80%E5%8F%B0%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="toc-text">初步配置第一台虚拟机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E6%AD%A5%E9%85%8D%E7%BD%AE%E5%85%B6%E4%BB%96%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="toc-text">初步配置其他虚拟机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEcompute%E8%8A%82%E7%82%B9"><span class="toc-text">配置compute节点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%BA%90"><span class="toc-text">配置源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85Openstack"><span class="toc-text">安装Openstack</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E4%B8%BB%E8%A6%81%E7%BB%84%E4%BB%B6"><span class="toc-text">安装主要组件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Test"><span class="toc-text">Test</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95"><span class="toc-text">单元测试</span></a></li></ol></div></div></widget>
+
+
+
+
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://github.com/44maker" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/08a41b181ce68.svg"/></a><a class="social" href="mailto:44maker_01@proton.me" rel="noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/a1b00e20f425d.svg"/></a></div></footer>
+
+    </aside>
+    <div class='l_main'>
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a></div><div id="post-meta">发布于&nbsp;<time datetime="2023-09-30T07:42:36.000Z">2023-09-30</time></div></div>
+
+<article class='md-text content post'>
+<h1 class="article-title"><span>openstack.md</span></h1>
+<p>制作一个Mini Project，使用openstack搭建1个控制节点，4个计算节点，然后使用分布式日志查询器查询日志 </p>
+<span id="more"></span>
+<h1 id="网络结构"><a href="#网络结构" class="headerlink" title="网络结构"></a>网络结构</h1><table>
+<thead>
+<tr>
+<th></th>
+<th>controller</th>
+<th>compute</th>
+<th>compute02</th>
+<th>compute03</th>
+<th>compute04</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ens33</td>
+<td>192.168.10.10</td>
+<td>192.168.10.20</td>
+<td>192.168.10.30</td>
+<td>192.168.10.40</td>
+<td>192.168.10.50</td>
+</tr>
+<tr>
+<td>ens34</td>
+<td>192.168.20.10</td>
+<td>192.168.20.20</td>
+<td>192.168.20.30</td>
+<td>192.168.20.40</td>
+<td>192.168.20.50</td>
+</tr>
+</tbody></table>
+<mark class="tag-plugin mark" color="yellow">ens33和34是网络接口</mark>
+<h1 id="Openstack搭建"><a href="#Openstack搭建" class="headerlink" title="Openstack搭建"></a>Openstack搭建</h1><h2 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h2><h3 id="资源准备"><a href="#资源准备" class="headerlink" title="资源准备"></a>资源准备</h3><p>点击下载资源包<br><a target="_blank" rel="noopener" href="https://www.123pan.com/s/L9uDVv-4Uu7H.html">云盘</a></p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.ipfsscan.io/ipfs/QmdxGc3WHa5LKtVQCwhyWeXFYnmtbahQmj5zuXpZZVdGiW?filename=image.png" fancybox="true"/></div></div>
+<h3 id="虚拟机配置"><a href="#虚拟机配置" class="headerlink" title="虚拟机配置"></a>虚拟机配置</h3><p>我所使用的是<mark class="tag-plugin mark" color="red">Vmware 16 Pro版本</mark></p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.ipfsscan.io/ipfs/QmRwKcEvBMmVU7EmREHLtJ1SFvMrvFiGSc8GbARi1wBLgj?filename=image.png" fancybox="true"/></div></div>
+<p>选择更改设置</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://img2023.cnblogs.com/blog/3273817/202309/3273817-20230930160305447-423301581.jpg" fancybox="true"/></div></div>
+<p>添加一张新的网卡，两个都选择仅主机模式，并按照上图填写对应的ip地址</p>
+<h3 id="新建虚拟机"><a href="#新建虚拟机" class="headerlink" title="新建虚拟机"></a>新建虚拟机</h3><p>创建新的虚拟机-&gt;选择centos7 iso -&gt;分配磁盘大小40G-&gt;点击完成<br>修改虚拟机配置</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://img2023.cnblogs.com/blog/3273817/202309/3273817-20230930160636564-1453828269.jpg" fancybox="true"/></div></div>
+<p>按照上图配置内存和处理器，然后添加网络适配器，选择刚刚设置好的两个网卡</p>
+<h2 id="初步配置第一台虚拟机"><a href="#初步配置第一台虚拟机" class="headerlink" title="初步配置第一台虚拟机"></a>初步配置第一台虚拟机</h2><p>开机后设置安装位置，选择40G硬盘，done<br>配置用户名和密码，重启<br>重启完成后，输入用户名root，输入密码（注意linux中输入密码是不显示的），输入完成按回车<br>接下来编辑网卡设置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/sysconfig/network-scripts/ifcfg-ens33</span><br><span class="line"><span class="comment">#按i进入编辑模式</span></span><br><span class="line">BOOTPROTO=static</span><br><span class="line">ONBOTT=<span class="built_in">yes</span></span><br><span class="line">IPADDR=192.168.10.10</span><br><span class="line">NETMASK=255.255.255.0</span><br><span class="line"><span class="comment">#修改完上面的内容后，按esc-&gt;冒号:wq退出即可</span></span><br></pre></td></tr></table></figure>
+<p>重启一下</p>
+<div class="tag-plugin copy"><input class="copy-area" readonly id="copy_1" value="systemctl restart network"><button class="copy-btn" onclick="util.copy(&quot;copy_1&quot;,&quot;Copied!&quot;)"><svg class="icon copy-btn" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M5.75 1a.75.75 0 00-.75.75v3c0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75v-3a.75.75 0 00-.75-.75h-4.5zm.75 3V2.5h3V4h-3zm-2.874-.467a.75.75 0 00-.752-1.298A1.75 1.75 0 002 3.75v9.5c0 .966.784 1.75 1.75 1.75h8.5A1.75 1.75 0 0014 13.25v-9.5a1.75 1.75 0 00-.874-1.515.75.75 0 10-.752 1.298.25.25 0 01.126.217v9.5a.25.25 0 01-.25.25h-8.5a.25.25 0 01-.25-.25v-9.5a.25.25 0 01.126-.217z"></path></svg></button></div>
+<p>再修改一下另一个网卡</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/sysconfig/network-scripts/ifcfg-ens34</span><br><span class="line">IPADDR=192.168.20.10</span><br><span class="line">NETMASK=255.255.255.0</span><br></pre></td></tr></table></figure>
+<p>关闭防火墙</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop firewalld</span><br><span class="line">systemctl <span class="built_in">disable</span> firewalld</span><br></pre></td></tr></table></figure>
+<p>关闭安全策略</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">setenforce 0</span><br><span class="line">vi /etc/selinux/config</span><br><span class="line">SELINUX=<span class="built_in">disable</span></span><br></pre></td></tr></table></figure>
+<p>设置hosts</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/hosts</span><br><span class="line">192.168.10.10 controller</span><br><span class="line">192.168.10.20 compute</span><br><span class="line">192.168.10.30 compute02</span><br><span class="line">192.168.10.40 compute03</span><br><span class="line">192.168.10.50 compute04</span><br></pre></td></tr></table></figure>
+<p>到这里基础步骤就完成啦！</p>
+<h2 id="初步配置其他虚拟机"><a href="#初步配置其他虚拟机" class="headerlink" title="初步配置其他虚拟机"></a>初步配置其他虚拟机</h2><p>将第一台机器关机，右击克隆</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://img2023.cnblogs.com/blog/3273817/202309/3273817-20230930161400824-1146095365.jpg" fancybox="true"/></div></div>
+<p>一路下一步即可<br>我建议先克隆一台机器，当compute一个节点配置完毕后，再克隆配置好的compute</p>
+<h2 id="配置compute节点"><a href="#配置compute节点" class="headerlink" title="配置compute节点"></a>配置compute节点</h2><p>同样也是先改好ip地址然后通过ssh连接</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/sysconfig/network-scripts/ifcfg-ens33</span><br><span class="line">BOOTPROTO=static</span><br><span class="line">ONBOTT=<span class="built_in">yes</span></span><br><span class="line">IPADDR=192.168.10.20</span><br><span class="line">NETMASK=255.255.255.0</span><br><span class="line"></span><br><span class="line">systemctl restart network</span><br><span class="line"></span><br><span class="line">vi /etc/sysconfig/network-scripts/ifcfg-ens34</span><br><span class="line">IPADDR=192.168.20.20</span><br><span class="line">NETMASK=255.255.255.0</span><br></pre></td></tr></table></figure>
+<h2 id="配置源"><a href="#配置源" class="headerlink" title="配置源"></a>配置源</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#controller中</span></span><br><span class="line">hostnamectl set-hostname controller</span><br><span class="line"><span class="comment">#compute</span></span><br><span class="line">hostnamectl set-hostname compute</span><br></pre></td></tr></table></figure>
+<p>上传两个ISO</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#controller</span></span><br><span class="line">yum 源配置</span><br><span class="line">vi /etc/yum.repos.d/local.repo</span><br><span class="line">[centos]</span><br><span class="line">name=centos</span><br><span class="line">enabled=1</span><br><span class="line">gpgcheck=0</span><br><span class="line">baseurl=file:///opt/centos</span><br><span class="line">[iaas]</span><br><span class="line">name=iaas</span><br><span class="line">enabled=1</span><br><span class="line">gpgcheck=0</span><br><span class="line">baseurl=file:///opt/iaas/iaas-repo</span><br><span class="line"></span><br><span class="line"><span class="built_in">mkdir</span> /opt/centos</span><br><span class="line"><span class="built_in">mkdir</span> /opt/iaas</span><br><span class="line">----------------------------------------------------</span><br><span class="line"><span class="comment">#compute中</span></span><br><span class="line">yum 源配置</span><br><span class="line"><span class="built_in">rm</span> -rf /etc/yum.repos.d/*</span><br><span class="line">vi /etc/yum.repos.d/ftp.repo</span><br><span class="line">[centos]</span><br><span class="line">name=centos</span><br><span class="line">enabled=1</span><br><span class="line">gpgcheck=0</span><br><span class="line">baseurl=ftp://192.168.10.10/centos</span><br><span class="line">[iaas]</span><br><span class="line">name=iaas</span><br><span class="line">enabled=1</span><br><span class="line">gpgcheck=0</span><br><span class="line">baseurl=ftp://192.168.10.10/iaas/iaas-repo</span><br><span class="line"></span><br><span class="line"><span class="comment">#controller中</span></span><br><span class="line">mount -o loop CentOS-7-x86_64-DVD-2009.iso /mnt/</span><br><span class="line"><span class="built_in">cp</span> -rvf /mnt/* /opt/centos</span><br><span class="line">umount /mnt/</span><br><span class="line"></span><br><span class="line">mount -o loop openstack.iso /mnt/</span><br><span class="line"><span class="built_in">cp</span> -rvf /mnt/* /opt/iaas/</span><br><span class="line">umount /mnt/</span><br><span class="line"></span><br><span class="line">yum repolist</span><br><span class="line"><span class="built_in">rm</span> -rf /etc/yum.repos.d/C*</span><br><span class="line">yum install vsftpd -y</span><br><span class="line">vi /etc/vsftpd/vsftpd.conf</span><br><span class="line">anon_root=/opt</span><br><span class="line"></span><br><span class="line">systemctl restart vsftpd</span><br><span class="line">systemctl <span class="built_in">enable</span> vsftpd</span><br></pre></td></tr></table></figure>
+<h2 id="安装Openstack"><a href="#安装Openstack" class="headerlink" title="安装Openstack"></a>安装Openstack</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#controller&amp;compute</span></span><br><span class="line">yum install openstack-iaas -y</span><br></pre></td></tr></table></figure>
+<p>安装完成刷新一下终端，就可以看到</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://img2023.cnblogs.com/blog/3273817/202309/3273817-20230930162541807-960085368.jpg" fancybox="true"/></div></div>
+<p>接下来我们要配置openstack文件<br>在controller中</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/openstack/openrc.sh</span><br><span class="line">ctrl+v+G+d</span><br><span class="line">:%s/PASS=/PASS=000000/g</span><br><span class="line">HOST_IP=192.168.10.10</span><br><span class="line"><span class="comment">#Controller Server hostname. example:controller</span></span><br><span class="line">HOST_NAME=controller</span><br><span class="line"><span class="comment">#Compute Node Manager IP. example:x.x.x.x</span></span><br><span class="line">HOST_IP_NODE=192.168.10.20,192.168.10.30,192.168.10.40,192.168.10.50</span><br><span class="line"><span class="comment">#Compute Node hostname. example:compute</span></span><br><span class="line">HOST_NAME_NODE=compute</span><br><span class="line"><span class="comment">#--------------------Chrony Config-------------------##</span></span><br><span class="line"><span class="comment">#Controller network segment IP.  example:x.x.0.0/16(x.x.x.0/24)</span></span><br><span class="line">network_segment_IP=192.168.0.0/16</span><br><span class="line"><span class="comment">#External Network Interface. example:eth1</span></span><br><span class="line">INTERFACE_NAME=ens34</span><br><span class="line"></span><br><span class="line"><span class="comment">#External Network The Physical Adapter. example:provider</span></span><br><span class="line">Physical_NAME=provider</span><br><span class="line"></span><br><span class="line"><span class="comment">#First Vlan ID in VLAN RANGE for VLAN Network. exmaple:101</span></span><br><span class="line">minvlan=1</span><br><span class="line"></span><br><span class="line"><span class="comment">#Last Vlan ID in VLAN RANGE for VLAN Network. example:200</span></span><br><span class="line">maxvlan=400</span><br><span class="line"></span><br><span class="line"><span class="comment">#需要填disk可以随便填</span></span><br><span class="line"><span class="comment">#Cinder Block Disk. example:md126p3</span></span><br><span class="line">BLOCK_DISK=sdb</span><br><span class="line"><span class="comment">#The NODE Object Disk for Swift. example:md126p4.</span></span><br><span class="line">OBJECT_DISK=sdc</span><br><span class="line"><span class="comment">#The NODE IP for Swift Storage Network. example:x.x.x.x.</span></span><br><span class="line">STORAGE_LOCAL_NET_IP=192.168.10.20</span><br></pre></td></tr></table></figure>
+<p>其他地方按照提示样例写就可以<br>然后将这份配置文件也传到compute节点中</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">scp /etc/openstack/openrc.sh root@192.168.10.20:/etc/openstack/</span><br><span class="line">输入密码</span><br></pre></td></tr></table></figure>
+<h3 id="安装主要组件"><a href="#安装主要组件" class="headerlink" title="安装主要组件"></a>安装主要组件</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#controller&amp;compute</span></span><br><span class="line">iaas-pre-host.sh</span><br><span class="line">重新连接ssh</span><br><span class="line"><span class="comment">#controller</span></span><br><span class="line">iaas-install-mysql.sh</span><br><span class="line">iaas-install-keystone.sh</span><br><span class="line">iaas-install-glance.sh</span><br><span class="line">iaas-install-placement.sh</span><br><span class="line">iaas-install-nova-controller.sh</span><br><span class="line">iaas-install-neutron-controller.sh</span><br><span class="line">iaas-install-dashboard.sh</span><br><span class="line"><span class="comment">#compute</span></span><br><span class="line">iaas-install-nova-compute.sh</span><br><span class="line">iaas-install-neutron-compute.sh</span><br></pre></td></tr></table></figure>
+<h1 id="分布式日志查询"><a href="#分布式日志查询" class="headerlink" title="分布式日志查询"></a>分布式日志查询</h1><p>在两台机器上安装go</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">tar -zxf go1.17.2.linux-amd64.tar.gz -C /usr/local</span><br><span class="line">vi /etc/profile</span><br><span class="line"><span class="comment">#go 环境变量</span></span><br><span class="line"><span class="built_in">export</span> GO111MODULE=on</span><br><span class="line"><span class="built_in">export</span> GOROOT=/usr/local/go</span><br><span class="line"><span class="built_in">export</span> GOPATH=/home/gopath</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$GOROOT</span>/bin:<span class="variable">$GOPATH</span>/bin</span><br><span class="line"></span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br></pre></td></tr></table></figure>
+<p>代码链接<br><a target="_blank" rel="noopener" href="https://github.com/44maker/DistributedLogQuerier">https://github.com/44maker/DistributedLogQuerier</a><br>将代码上传到两台机器<br>到这里所有的配置工作就完成啦<br>可以将机器关闭，然后克隆compute节点，再复制3台机器，安装上文讲过的配置一下ip地址，ssh连接上</p>
+<h2 id="Test"><a href="#Test" class="headerlink" title="Test"></a>Test</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#在所有compute节点中</span></span><br><span class="line">go run server.go</span><br><span class="line"><span class="comment">#在controller中</span></span><br><span class="line">go build client.go</span><br><span class="line">./client [query] [<span class="built_in">log</span> file name]</span><br><span class="line">example:  ./client name</span><br></pre></td></tr></table></figure>
+<h2 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#生成测试的log文件</span></span><br><span class="line">go run generate_testfiles.go</span><br><span class="line"><span class="comment">#在所有compute节点中</span></span><br><span class="line">go run server.go</span><br><span class="line"><span class="comment">#在controller中</span></span><br><span class="line">go <span class="built_in">test</span> -v client_test.go</span><br></pre></td></tr></table></figure>
+<p>参考结果</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://camo.githubusercontent.com/43680d6ef4d83b42e4a7085448a8c53ded39a82adb4249f4d5757e73084d3cdf/68747470733a2f2f63646e2e697066737363616e2e696f2f697066732f516d654d7832366a356e5371727a715966635a654c57756f72557a673334687a614e5632587850614847475a53443f66696c656e616d653d696d6167652e706e67" fancybox="true"/></div></div>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://camo.githubusercontent.com/5150ffe840234da4a96eb84c58a902f8a1e2803c31bfaa12a484ab28dda859b3/68747470733a2f2f63646e2e697066737363616e2e696f2f697066732f516d63797957484367394d33736d7233625376437335664671393647647755793438696d775371586576794866443f66696c656e616d653d526573756c7473322e706e67" fancybox="true"/></div></div>
+
+
+  
+  <script>
+    let tianliGPT_postSelector = '.md-text.content.post';
+    let tianliGPT_key = '541718c8f221071e5c84';
+  </script>
+  <script defer src="https://cdn1.tianli0.top/gh/zhheo/Post-Abstract-AI@0.9/tianli_gpt.js"></script>
+
+
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2023/09/02/htb-response/">HTB: Response</a></div></section></div>
+
+
+<div class="related-wrap reveal" id="related-posts"></div>
+
+
+
+  <div class='related-wrap md-text reveal' id="comments">
+    <section class='header cmt-title cap theme'>
+      快来参与讨论吧
+    </section>
+    <section class='body cmt-body beaudar'>
+      
+
+<svg class="loading" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+
+<div id="beaudar" repo="44maker/blog-comments" issue-term="pathname" theme="preferred-color-scheme" input-position="top" comment-order="desc" loading="false" branch="main"></div>
+
+    </section>
+  </div>
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="text"><center>
+</br>
+</br>
+<!--不蒜子计数器-->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!--添加一个访问量-->
+<span>
+                👀总访问 <span id="busuanzi_value_site_pv" style="color: rgb(13, 109, 252); font-weight: bold;"></span>                次 | 🥷总访客 <span id="busuanzi_value_site_uv" style="color: rgb(13, 109, 252); font-weight: bold;"></span> 人
+</span>
+</br>
+</br>
+
+<p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.19.0';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadBeaudar() {
+    const els = document.querySelectorAll("#comments #beaudar");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://beaudar.lipk.org/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+      loadBeaudar();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+  
+    <script  src="https://jsd.cdn.zzko.cn/npm/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+  
+    <script>window.addEventListener('load', () => {  quicklink.listen();});</script>
+  
+
+
+  </div>
+</body>
+</html>
