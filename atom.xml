@@ -6,7 +6,7 @@
   <link href="https://44maker.github.io/atom.xml" rel="self"/>
   
   <link href="https://44maker.github.io/"/>
-  <updated>2023-12-01T14:26:18.442Z</updated>
+  <updated>2023-12-01T13:46:11.051Z</updated>
   <id>https://44maker.github.io/</id>
   
   <author>
@@ -15,27 +15,6 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>感冒日记</title>
-    <link href="https://44maker.github.io/2023/12/01/%E6%84%9F%E5%86%92%E6%97%A5%E8%AE%B0/"/>
-    <id>https://44maker.github.io/2023/12/01/%E6%84%9F%E5%86%92%E6%97%A5%E8%AE%B0/</id>
-    <published>2023-12-01T13:46:25.000Z</published>
-    <updated>2023-12-01T14:26:18.442Z</updated>
-    
-    <content type="html"><![CDATA[<p>时隔多年再次发烧，记录一下对于感冒发烧的一些经验。⚠️有症状尽快就医<br>本文仅记录个人经验，不代表医院建议，请根据自己的情况做好判断。</p><span id="more"></span><h2 id="感冒症状"><a href="#感冒症状" class="headerlink" title="感冒症状"></a>感冒症状</h2><ol><li>早起喉咙痛</li><li>咳嗽</li><li>流鼻涕</li><li>发热[个人是下午到晚上体温最高]</li></ol><h2 id="处理办法"><a href="#处理办法" class="headerlink" title="处理办法"></a>处理办法</h2><ol><li>早起喉咙痛</li></ol><ul><li>泡一杯板蓝根<div class="tag-plugin image"><div class="image-bg"><img src="https://img11.360buyimg.com/n7/jfs/t1/124142/23/30135/95502/652a3adeFf77256f1/cb8dd0b1d08d3cab.jpg" fancybox="true"/></div></div></li><li>早餐不要吃油腻的</li><li>多喝热水🥛<br>2.咳嗽</li><li>京都念慈庵<div class="tag-plugin image"><div class="image-bg"><img src="https://img13.360buyimg.com/n1/jfs/t1/123123/5/41158/124241/6531ed9aF469fd94d/9ac09cb61a9e3743.jpg.avif" fancybox="true"/></div></div></li><li>多喝热水🥛</li></ul><ol start="3"><li>流鼻涕</li></ol><ul><li>多喝热水🥛<blockquote><p>上述症状严重，吃感冒药<br>感冒药选择❗注意用药请遵从医嘱</p></blockquote><div class="tag-plugin image"><div class="image-bg"><img src="https://img1.dxycdn.com/2022/1031/008/2417304531397230853-183.png" fancybox="true"/></div></div></li></ul><ol start="4"><li>发热<br>家中常备水银温度计，体温枪<br>检测：<br>法一：腋下使用水银温度计，时间为5-8分钟<br>法二：建议用耳温枪<br>物理降温：<br>a. 温水擦拭脖子，腋窝，四肢<br>b. 热水泡脚，30°C-40°C左右，时间为10-15分钟<br>c. 冰敷贴<br>体温超过38.5摄氏度，睡前口服退热药<br>成人美林（布洛芬混悬液） <code>15毫升</code><div class="tag-plugin image"><div class="image-bg"><img src="https://img14.360buyimg.com/n7/jfs/t1/99693/12/29179/137941/62b604f0E4e931573/46488c4e8e81d772.jpg" fancybox="true"/></div></div></li></ol><h2 id="医院检查"><a href="#医院检查" class="headerlink" title="医院检查"></a>医院检查</h2><p>有任何不适建议首先前往医院！！！<br>若3天在家喝了感冒药没有好转，必须就医<br>拍CT、验血以及做其他检查</p><blockquote><p>保重身体，多喝热水，各自安好</p></blockquote>]]></content>
-    
-    
-    <summary type="html">时隔多年再次发烧，记录一下对于感冒发烧的一些经验。</summary>
-    
-    
-    
-    <category term="生活日记" scheme="https://44maker.github.io/categories/%E7%94%9F%E6%B4%BB%E6%97%A5%E8%AE%B0/"/>
-    
-    
-    <category term="生活" scheme="https://44maker.github.io/tags/%E7%94%9F%E6%B4%BB/"/>
-    
-  </entry>
   
   <entry>
     <title>OpenStack &amp; Distributed Log Querier</title>
