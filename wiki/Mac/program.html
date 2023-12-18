@@ -31,8 +31,8 @@
 <meta property="og:description" content="iTerm2没有一个好看的终端怎么行 1brew install --cask iterm2 美化美化可以使用Starship 1brew install starship 1echo &amp;#x27;eval &quot;$(starship init zsh)&quot;&amp;#x27; &gt;&gt; ~&#x2F;.zshrc  卸载sharship  删除 shell 配置中~&#x2F;.zshrc用于初始化">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://gcore.jsdelivr.net/gh/cdn-x/emoji/tieba/%E6%BB%91%E7%A8%BD.png">
-<meta property="article:published_time" content="2023-12-16T14:25:40.483Z">
-<meta property="article:modified_time" content="2023-12-16T14:25:40.483Z">
+<meta property="article:published_time" content="2023-12-18T15:00:19.355Z">
+<meta property="article:modified_time" content="2023-12-18T15:00:19.355Z">
 <meta property="article:author" content="44maker">
 <meta property="article:tag" content="blog">
 <meta name="twitter:card" content="summary">
@@ -101,7 +101,7 @@
   
   
   
-<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" id="home" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki/">Wiki</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/Mac/index.html">Mac</a></div><div id="post-meta">更新于&nbsp;<time datetime="2023-12-16T14:25:40.483Z">2023-12-16</time></div></div>
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" id="home" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki/">Wiki</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/Mac/index.html">Mac</a></div><div id="post-meta">更新于&nbsp;<time datetime="2023-12-18T15:00:19.355Z">2023-12-18</time></div></div>
 
   <article class='md-text content wiki'>
   <h1 class="article-title"><span>开发配置</span></h1>
@@ -232,7 +232,6 @@
 <p>pip</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install --pre torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/nightly/cpu</span><br></pre></td></tr></table></figure>
 
-<p>Building from source</p>
 <h3 id="测试-1"><a href="#测试-1" class="headerlink" title="测试"></a>测试</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import torch</span><br><span class="line"><span class="keyword">if</span> torch.backends.mps.is_available():</span><br><span class="line">    mps_device = torch.device(<span class="string">&quot;mps&quot;</span>)</span><br><span class="line">    x = torch.ones(1, device=mps_device)</span><br><span class="line">    <span class="built_in">print</span> (x)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span> (<span class="string">&quot;MPS device not found.&quot;</span>)</span><br></pre></td></tr></table></figure>
 <p>The output should show:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tensor([1.], device=&#x27;mps:0&#x27;)</span><br></pre></td></tr></table></figure>
